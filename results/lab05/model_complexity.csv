@@ -1,0 +1,5 @@
+,Interpretable rule tree,Random-forest reference
+sensors used,4,24
+trees,1,200
+total nodes,27,51294
+interpretability,Readable if-then rules,Hard to explain
