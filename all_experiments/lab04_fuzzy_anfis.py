@@ -3,7 +3,7 @@ Run this directly in VS Code: click "Run Python File" (top-right play button)
 or type `python lab04_fuzzy_anfis.py` in the integrated terminal.
 
 Expected location: all_experiments/lab04_fuzzy_anfis.py
-Needs:             all_datasets/lab04-AirQuality.csv
+Needs:             all_datasets/Lab 4/AirQuality.csv
 Saves evidence to: results/lab04/
 """
 from itertools import product
@@ -22,7 +22,7 @@ pd.set_option("display.width", 200)                # show every column in the te
 pd.set_option("display.max_columns", None)
 
 ROOT = Path(__file__).resolve().parent.parent      # the AI course folder
-DATA = ROOT / "all_datasets"
+DATA = ROOT / "all_datasets" / "Lab 4"
 RESULTS = ROOT / "results" / "lab04"
 RESULTS.mkdir(parents=True, exist_ok=True)
 
@@ -32,7 +32,7 @@ RESULTS.mkdir(parents=True, exist_ok=True)
 # ---------------------------------------------------------------------------
 print("\n=== Question 1: Clean the data ===")
 # The file uses ';' between columns and ',' as the decimal point.
-df = pd.read_csv(DATA / "lab04-AirQuality.csv", sep=";", decimal=",")
+df = pd.read_csv(DATA / "AirQuality.csv", sep=";", decimal=",")
 df = df.dropna(axis="columns", how="all").dropna(how="all")   # empty unnamed columns, empty tail rows
 df = df.replace(-200, np.nan)                                 # -200 means "no reading"
 

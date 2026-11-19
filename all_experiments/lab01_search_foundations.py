@@ -21,7 +21,7 @@ from utils import bfs, dfs, ucs, haversine_km, load_openflights, plot_route_path
 # ---------------------------------------------------------------------------
 HERE = Path(__file__).resolve().parent      # .../AI/all_experiments
 ROOT = HERE.parent                          # .../AI  (the course folder)
-DATA = ROOT / "all_datasets"
+DATA = ROOT / "all_datasets" / "Lab 1-3"
 RESULTS = ROOT / "results" / "lab01"
 RESULTS.mkdir(parents=True, exist_ok=True)
 
@@ -42,7 +42,7 @@ heading("Question 1 - Load and validate the graph")
 
 airports, routes, coords, graph, stats = load_openflights(
     DATA / "lab01-03_airports.csv",
-    DATA / "lab01-03_routes.csv",
+    DATA / "routes.csv",
 )
 queries = pd.read_csv(HERE / "utils" / "search_queries.csv").head(3)
 

@@ -1,0 +1,17 @@
+pipeline,failure_type,count,share_of_images,example_filename,example_truth,example_prediction
+baseline,no text detected,62,0.6966292134831461,.trashed-1730802496-IMG_20241006_151957 - Copy (2).jpg,cefiget 40mg,
+baseline,mostly wrong,20,0.2247191011235955,IMG_20241006_143429 - Copy.jpg,movax,Ae Vag
+baseline,similar letters (edit distance <= 50%),4,0.0449438202247191,IMG_20241006_142757 - Copy.jpg,dicloran,divlerer
+baseline,near miss (1-2 character edits),2,0.02247191011235955,IMG_20241006_142533 - Copy.jpg,nims,Nidu
+baseline,partly right (shares a whole word),1,0.011235955056179775,img 26.jpg,tab na dard,"WW -
+
+Na Awa"
+preprocessed,no text detected,81,0.9101123595505618,.trashed-1730802496-IMG_20241006_151957 - Copy (2).jpg,cefiget 40mg,
+preprocessed,mostly wrong,7,0.07865168539325842,IMG_20241006_144252 - Copy.jpg,tab tonoflex p,hy Ton ne F
+preprocessed,similar letters (edit distance <= 50%),1,0.011235955056179775,IMG_20241006_153855.jpg,lipiget,Lippe
+height150_psm7,mostly wrong,48,0.5393258426966292,.trashed-1730802496-IMG_20241006_151957 - Copy (2).jpg,cefiget 40mg,"Co,"
+height150_psm7,no text detected,32,0.3595505617977528,IMG_20241006_142328 - Copy.jpg,tab toniflex,
+height150_psm7,near miss (1-2 character edits),3,0.033707865168539325,IMG_20241006_142533 - Copy.jpg,nims,Nish
+height150_psm7,similar letters (edit distance <= 50%),3,0.033707865168539325,IMG_20241006_143429 - Copy.jpg,movax,Me Vag
+height150_psm7,partly right (shares a whole word),2,0.02247191011235955,IMG_20241006_150130.jpg,tab my d,f my
+height150_psm7,symbols only (no letters/digits),1,0.011235955056179775,IMG_20241006_145439.jpg,tab mesulid,+

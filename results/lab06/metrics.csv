@@ -1,0 +1,4 @@
+pipeline,description,images,exact_match_accuracy,mean_normalised_edit_distance,character_error_rate,blank_predictions,median_runtime_ms
+baseline,"raw photo, default page segmentation",89,0.0,0.9097491771649077,0.9221556886227545,62,575.0133999999889
+preprocessed,gray + autocontrast + border + 2x upscale,89,0.0,0.980992509363296,0.9796407185628743,81,805.9411999997792
+height150_psm7,"gray + autocontrast + border + resize to 150px high, single text line",89,0.0,0.8364706454594095,0.858682634730539,33,397.8814999995848
