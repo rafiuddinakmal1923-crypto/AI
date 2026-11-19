@@ -1,0 +1,282 @@
+image_id,filename,pipeline,truth,raw_prediction,runtime_ms,truth_norm,prediction_norm,exact_match,blank,edit_distance,normalised_edit_distance,truth_chars,failure_type
+0,.trashed-1730802496-IMG_20241006_151957 - Copy (2).jpg,baseline,cefiget 40mg,,531.588499999998,cefiget 40mg,,False,True,12,1.0,12,no text detected
+0,.trashed-1730802496-IMG_20241006_151957 - Copy (2).jpg,preprocessed,cefiget 40mg,,789.3374999998741,cefiget 40mg,,False,True,12,1.0,12,no text detected
+0,.trashed-1730802496-IMG_20241006_151957 - Copy (2).jpg,height150_psm7,cefiget 40mg,"Co,",459.6478999997089,cefiget 40mg,co,False,False,11,0.9166666666666666,12,mostly wrong
+1,IMG_20241006_141949 - Copy.jpg,baseline,tab azimax,,579.3558999998822,tab azimax,,False,True,10,1.0,10,no text detected
+1,IMG_20241006_141949 - Copy.jpg,preprocessed,tab azimax,,1032.770000000255,tab azimax,,False,True,10,1.0,10,no text detected
+1,IMG_20241006_141949 - Copy.jpg,height150_psm7,tab azimax,“aA Agi,466.76250000018626,tab azimax,aa agi,False,False,6,0.6,10,mostly wrong
+2,IMG_20241006_142328 - Copy.jpg,baseline,tab toniflex,,588.0542999998397,tab toniflex,,False,True,12,1.0,12,no text detected
+2,IMG_20241006_142328 - Copy.jpg,preprocessed,tab toniflex,,749.8700999999528,tab toniflex,,False,True,12,1.0,12,no text detected
+2,IMG_20241006_142328 - Copy.jpg,height150_psm7,tab toniflex,,397.92880000004516,tab toniflex,,False,True,12,1.0,12,no text detected
+3,IMG_20241006_142533 - Copy.jpg,baseline,nims,Nidu,484.77379999985715,nims,nidu,False,False,2,0.5,4,near miss (1-2 character edits)
+3,IMG_20241006_142533 - Copy.jpg,preprocessed,nims,,468.94479999991745,nims,,False,True,4,1.0,4,no text detected
+3,IMG_20241006_142533 - Copy.jpg,height150_psm7,nims,Nish,361.0513999997238,nims,nish,False,False,2,0.5,4,near miss (1-2 character edits)
+4,IMG_20241006_142757 - Copy.jpg,baseline,dicloran,divlerer,539.4140000003063,dicloran,divlerer,False,False,4,0.5,8,similar letters (edit distance <= 50%)
+4,IMG_20241006_142757 - Copy.jpg,preprocessed,dicloran,,635.3385000002163,dicloran,,False,True,8,1.0,8,no text detected
+4,IMG_20241006_142757 - Copy.jpg,height150_psm7,dicloran,diterew,497.05309999990277,dicloran,diterew,False,False,5,0.625,8,mostly wrong
+5,IMG_20241006_142934 - Copy.jpg,baseline,breeky,,573.7749999998414,breeky,,False,True,6,1.0,6,no text detected
+5,IMG_20241006_142934 - Copy.jpg,preprocessed,breeky,,738.1497999999738,breeky,,False,True,6,1.0,6,no text detected
+5,IMG_20241006_142934 - Copy.jpg,height150_psm7,breeky,,380.9825000003002,breeky,,False,True,6,1.0,6,no text detected
+6,IMG_20241006_143132 - Copy.jpg,baseline,pronaz,,569.6330999999191,pronaz,,False,True,6,1.0,6,no text detected
+6,IMG_20241006_143132 - Copy.jpg,preprocessed,pronaz,,758.8839000000007,pronaz,,False,True,6,1.0,6,no text detected
+6,IMG_20241006_143132 - Copy.jpg,height150_psm7,pronaz,,419.83140000002095,pronaz,,False,True,6,1.0,6,no text detected
+7,IMG_20241006_143429 - Copy.jpg,baseline,movax,Ae Vag,551.9290000002002,movax,ae vag,False,False,4,0.6666666666666666,5,mostly wrong
+7,IMG_20241006_143429 - Copy.jpg,preprocessed,movax,,580.8743000002323,movax,,False,True,5,1.0,5,no text detected
+7,IMG_20241006_143429 - Copy.jpg,height150_psm7,movax,Me Vag,359.86589999993157,movax,me vag,False,False,3,0.5,5,similar letters (edit distance <= 50%)
+8,IMG_20241006_143544 - Copy.jpg,baseline,cap caricef,,593.0055999997421,cap caricef,,False,True,11,1.0,11,no text detected
+8,IMG_20241006_143544 - Copy.jpg,preprocessed,cap caricef,,616.9095000000198,cap caricef,,False,True,11,1.0,11,no text detected
+8,IMG_20241006_143544 - Copy.jpg,height150_psm7,cap caricef,,438.59619999966526,cap caricef,,False,True,11,1.0,11,no text detected
+9,IMG_20241006_143810 - Copy.jpg,baseline,bisleri,,406.3394999998309,bisleri,,False,True,7,1.0,7,no text detected
+9,IMG_20241006_143810 - Copy.jpg,preprocessed,bisleri,,575.6430000001274,bisleri,,False,True,7,1.0,7,no text detected
+9,IMG_20241006_143810 - Copy.jpg,height150_psm7,bisleri,Be 4 [ofa,323.6845000001267,bisleri,be 4 ofa,False,False,7,0.875,7,mostly wrong
+10,IMG_20241006_143853 - Copy.jpg,baseline,tab novidat,,567.9470000000038,tab novidat,,False,True,11,1.0,11,no text detected
+10,IMG_20241006_143853 - Copy.jpg,preprocessed,tab novidat,,786.9497000001502,tab novidat,,False,True,11,1.0,11,no text detected
+10,IMG_20241006_143853 - Copy.jpg,height150_psm7,tab novidat,"ab, rueitt",379.1011000002982,tab novidat,ab rueitt,False,False,6,0.5454545454545454,11,mostly wrong
+11,IMG_20241006_144119 - Copy.jpg,baseline,tab azitma 500mg,,679.9655999998322,tab azitma 500mg,,False,True,16,1.0,16,no text detected
+11,IMG_20241006_144119 - Copy.jpg,preprocessed,tab azitma 500mg,,1031.769499999882,tab azitma 500mg,,False,True,16,1.0,16,no text detected
+11,IMG_20241006_144119 - Copy.jpg,height150_psm7,tab azitma 500mg,fh Nadwa Srq,313.0626000001939,tab azitma 500mg,fh nadwa srq,False,False,13,0.8125,16,mostly wrong
+12,IMG_20241006_144252 - Copy.jpg,baseline,tab tonoflex p,,559.2262000000119,tab tonoflex p,,False,True,14,1.0,14,no text detected
+12,IMG_20241006_144252 - Copy.jpg,preprocessed,tab tonoflex p,hy Ton ne F,1167.3185999998168,tab tonoflex p,hy ton ne f,False,False,8,0.5714285714285714,14,mostly wrong
+12,IMG_20241006_144252 - Copy.jpg,height150_psm7,tab tonoflex p,,301.36869999978444,tab tonoflex p,,False,True,14,1.0,14,no text detected
+13,IMG_20241006_144408 - Copy.jpg,baseline,tab nims 100mg,,704.2603999998391,tab nims 100mg,,False,True,14,1.0,14,no text detected
+13,IMG_20241006_144408 - Copy.jpg,preprocessed,tab nims 100mg,,1271.6599000000315,tab nims 100mg,,False,True,14,1.0,14,no text detected
+13,IMG_20241006_144408 - Copy.jpg,height150_psm7,tab nims 100mg,| Nia) Re Wy,449.0214000002197,tab nims 100mg,nia re wy,False,False,11,0.7857142857142857,14,mostly wrong
+14,IMG_20241006_144505 - Copy.jpg,baseline,tab dicloran,,572.6859000001241,tab dicloran,,False,True,12,1.0,12,no text detected
+14,IMG_20241006_144505 - Copy.jpg,preprocessed,tab dicloran,,1013.7144000000262,tab dicloran,,False,True,12,1.0,12,no text detected
+14,IMG_20241006_144505 - Copy.jpg,height150_psm7,tab dicloran,me poral,329.31989999997313,tab dicloran,me poral,False,False,8,0.6666666666666666,12,mostly wrong
+15,IMG_20241006_144555.jpg,baseline,tab breaky,,621.840499999962,tab breaky,,False,True,10,1.0,10,no text detected
+15,IMG_20241006_144555.jpg,preprocessed,tab breaky,,1128.9867000000413,tab breaky,,False,True,10,1.0,10,no text detected
+15,IMG_20241006_144555.jpg,height150_psm7,tab breaky,YB venky,335.72789999971064,tab breaky,yb venky,False,False,5,0.5,10,similar letters (edit distance <= 50%)
+16,IMG_20241006_144641.jpg,baseline,tab provas,,652.4653000001308,tab provas,,False,True,10,1.0,10,no text detected
+16,IMG_20241006_144641.jpg,preprocessed,tab provas,,1121.052299999974,tab provas,,False,True,10,1.0,10,no text detected
+16,IMG_20241006_144641.jpg,height150_psm7,tab provas,Pa runs,437.5459999996565,tab provas,pa runs,False,False,6,0.6,10,mostly wrong
+17,IMG_20241006_144753.jpg,baseline,cap caricef 40mg,,723.1848000001264,cap caricef 40mg,,False,True,16,1.0,16,no text detected
+17,IMG_20241006_144753.jpg,preprocessed,cap caricef 40mg,,1385.435900000175,cap caricef 40mg,,False,True,16,1.0,16,no text detected
+17,IMG_20241006_144753.jpg,height150_psm7,cap caricef 40mg,,466.1903000001075,cap caricef 40mg,,False,True,16,1.0,16,no text detected
+18,IMG_20241006_144902.jpg,baseline,tab bisleri,,673.932700000023,tab bisleri,,False,True,11,1.0,11,no text detected
+18,IMG_20241006_144902.jpg,preprocessed,tab bisleri,,815.1068000001942,tab bisleri,,False,True,11,1.0,11,no text detected
+18,IMG_20241006_144902.jpg,height150_psm7,tab bisleri,,569.5951999996396,tab bisleri,,False,True,11,1.0,11,no text detected
+19,IMG_20241006_144955.jpg,baseline,tab novidat,,766.2669999999707,tab novidat,,False,True,11,1.0,11,no text detected
+19,IMG_20241006_144955.jpg,preprocessed,tab novidat,,1169.5339000002605,tab novidat,,False,True,11,1.0,11,no text detected
+19,IMG_20241006_144955.jpg,height150_psm7,tab novidat,| +» jmullll,465.20179999970424,tab novidat,jmullll,False,False,11,1.0,11,mostly wrong
+20,IMG_20241006_145056.jpg,baseline,tab distalgesic,,624.0413999998964,tab distalgesic,,False,True,15,1.0,15,no text detected
+20,IMG_20241006_145056.jpg,preprocessed,tab distalgesic,,982.0635999999467,tab distalgesic,,False,True,15,1.0,15,no text detected
+20,IMG_20241006_145056.jpg,height150_psm7,tab distalgesic,,465.50859999979366,tab distalgesic,,False,True,15,1.0,15,no text detected
+21,IMG_20241006_145141.jpg,baseline,tab atcomid,,616.0976000001028,tab atcomid,,False,True,11,1.0,11,no text detected
+21,IMG_20241006_145141.jpg,preprocessed,tab atcomid,,655.0003000002107,tab atcomid,,False,True,11,1.0,11,no text detected
+21,IMG_20241006_145141.jpg,height150_psm7,tab atcomid,I ode,400.56090000007316,tab atcomid,i ode,False,False,9,0.8181818181818182,11,mostly wrong
+22,IMG_20241006_145250 - Copy.jpg,baseline,tab atconate,"No
+A conokl",546.027100000174,tab atconate,no a conokl,False,False,7,0.5833333333333334,12,mostly wrong
+22,IMG_20241006_145250 - Copy.jpg,preprocessed,tab atconate,,692.7898999997524,tab atconate,,False,True,12,1.0,12,no text detected
+22,IMG_20241006_145250 - Copy.jpg,height150_psm7,tab atconate,Re oA conokl,341.76679999973203,tab atconate,re oa conokl,False,False,8,0.6666666666666666,12,mostly wrong
+23,IMG_20241006_145250.jpg,baseline,tab atconate,"No
+A conokl",578.2444999999825,tab atconate,no a conokl,False,False,7,0.5833333333333334,12,mostly wrong
+23,IMG_20241006_145250.jpg,preprocessed,tab atconate,,655.3790999996636,tab atconate,,False,True,12,1.0,12,no text detected
+23,IMG_20241006_145250.jpg,height150_psm7,tab atconate,Re oA conokl,327.18849999992017,tab atconate,re oa conokl,False,False,8,0.6666666666666666,12,mostly wrong
+24,IMG_20241006_145439.jpg,baseline,tab mesulid,NM XSiAng,624.0861999999652,tab mesulid,nm xsiang,False,False,9,0.8181818181818182,11,mostly wrong
+24,IMG_20241006_145439.jpg,preprocessed,tab mesulid,,779.8624000001837,tab mesulid,,False,True,11,1.0,11,no text detected
+24,IMG_20241006_145439.jpg,height150_psm7,tab mesulid,+,389.88179999978456,tab mesulid,,False,True,11,1.0,11,symbols only (no letters/digits)
+25,IMG_20241006_145636.jpg,baseline,movelate,,472.95660000008866,movelate,,False,True,8,1.0,8,no text detected
+25,IMG_20241006_145636.jpg,preprocessed,movelate,,588.7444999998479,movelate,,False,True,8,1.0,8,no text detected
+25,IMG_20241006_145636.jpg,height150_psm7,movelate,Novo),515.4748999998446,movelate,novo,False,False,6,0.75,8,mostly wrong
+26,IMG_20241006_145902.jpg,baseline,uriguard,,520.8471999999347,uriguard,,False,True,8,1.0,8,no text detected
+26,IMG_20241006_145902.jpg,preprocessed,uriguard,At PRU,600.9182000002511,uriguard,at pru,False,False,7,0.875,8,mostly wrong
+26,IMG_20241006_145902.jpg,height150_psm7,uriguard,Ay Prony,412.1374999999716,uriguard,ay prony,False,False,8,1.0,8,mostly wrong
+27,IMG_20241006_150012 - Copy.jpg,baseline,na dard,Nel dar,484.85319999963394,na dard,nel dar,False,False,3,0.42857142857142855,7,similar letters (edit distance <= 50%)
+27,IMG_20241006_150012 - Copy.jpg,preprocessed,na dard,,542.544800000087,na dard,,False,True,7,1.0,7,no text detected
+27,IMG_20241006_150012 - Copy.jpg,height150_psm7,na dard,Nel - hod,398.42129999988174,na dard,nel hod,False,False,5,0.7142857142857143,7,mostly wrong
+28,IMG_20241006_150012.jpg,baseline,na dard,Nel dar,575.0133999999889,na dard,nel dar,False,False,3,0.42857142857142855,7,similar letters (edit distance <= 50%)
+28,IMG_20241006_150012.jpg,preprocessed,na dard,,662.9760999999235,na dard,,False,True,7,1.0,7,no text detected
+28,IMG_20241006_150012.jpg,height150_psm7,na dard,Nel - hod,513.057800000297,na dard,nel hod,False,False,5,0.7142857142857143,7,mostly wrong
+29,IMG_20241006_150045.jpg,baseline,tab atcam,"o;
+
+C uw",749.3170999996437,tab atcam,o c uw,False,False,8,0.8888888888888888,9,mostly wrong
+29,IMG_20241006_150045.jpg,preprocessed,tab atcam,,1053.3755999999812,tab atcam,,False,True,9,1.0,9,no text detected
+29,IMG_20241006_150045.jpg,height150_psm7,tab atcam,he A Cuw,549.4118999999955,tab atcam,he a cuw,False,False,6,0.6666666666666666,9,mostly wrong
+30,IMG_20241006_150130.jpg,baseline,tab my d,,627.2214999999051,tab my d,,False,True,8,1.0,8,no text detected
+30,IMG_20241006_150130.jpg,preprocessed,tab my d,,885.095199999796,tab my d,,False,True,8,1.0,8,no text detected
+30,IMG_20241006_150130.jpg,height150_psm7,tab my d,f my,485.26170000013735,tab my d,f my,False,False,5,0.625,8,partly right (shares a whole word)
+31,IMG_20241006_150224.jpg,baseline,tab ostium,Dr shut,576.5105000000403,tab ostium,dr shut,False,False,7,0.7,10,mostly wrong
+31,IMG_20241006_150224.jpg,preprocessed,tab ostium,Dr oshur,909.5382000000427,tab ostium,dr oshur,False,False,6,0.6,10,mostly wrong
+31,IMG_20241006_150224.jpg,height150_psm7,tab ostium,bh ash,343.7991000000693,tab ostium,bh ash,False,False,8,0.8,10,mostly wrong
+32,IMG_20241006_150321.jpg,baseline,tab distalgasic,"al
+
+wy",633.6906000001363,tab distalgasic,al wy,False,False,13,0.8666666666666667,15,mostly wrong
+32,IMG_20241006_150321.jpg,preprocessed,tab distalgasic,,1267.8705999996964,tab distalgasic,,False,True,15,1.0,15,no text detected
+32,IMG_20241006_150321.jpg,height150_psm7,tab distalgasic,,359.86149999962436,tab distalgasic,,False,True,15,1.0,15,no text detected
+33,IMG_20241006_150507.jpg,baseline,tab atcomid,,574.6815000002243,tab atcomid,,False,True,11,1.0,11,no text detected
+33,IMG_20241006_150507.jpg,preprocessed,tab atcomid,,844.6789999998146,tab atcomid,,False,True,11,1.0,11,no text detected
+33,IMG_20241006_150507.jpg,height150_psm7,tab atcomid,hb Newehs,489.84040000004825,tab atcomid,hb newehs,False,False,9,0.8181818181818182,11,mostly wrong
+34,IMG_20241006_150800.jpg,baseline,tab atconate,,599.6335999998337,tab atconate,,False,True,12,1.0,12,no text detected
+34,IMG_20241006_150800.jpg,preprocessed,tab atconate,,936.1093000002256,tab atconate,,False,True,12,1.0,12,no text detected
+34,IMG_20241006_150800.jpg,height150_psm7,tab atconate,,427.8622999995605,tab atconate,,False,True,12,1.0,12,no text detected
+35,IMG_20241006_150836.jpg,baseline,tab mesulid,,635.7364000000416,tab mesulid,,False,True,11,1.0,11,no text detected
+35,IMG_20241006_150836.jpg,preprocessed,tab mesulid,,786.9894999998905,tab mesulid,,False,True,11,1.0,11,no text detected
+35,IMG_20241006_150836.jpg,height150_psm7,tab mesulid,Seer. C5 dk,530.8456000002479,tab mesulid,seer c5 dk,False,False,11,1.0,11,mostly wrong
+36,IMG_20241006_150902.jpg,baseline,tab movalate,"* ""
+ea
+Y)",573.7512000000606,tab movalate,ea y,False,False,10,0.8333333333333334,12,mostly wrong
+36,IMG_20241006_150902.jpg,preprocessed,tab movalate,,894.0936999997575,tab movalate,,False,True,12,1.0,12,no text detected
+36,IMG_20241006_150902.jpg,height150_psm7,tab movalate,7. Wye At;,353.799799999706,tab movalate,7 wye at,False,False,9,0.75,12,mostly wrong
+37,IMG_20241006_150946.jpg,baseline,tab uriguard,,554.0006000001085,tab uriguard,,False,True,12,1.0,12,no text detected
+37,IMG_20241006_150946.jpg,preprocessed,tab uriguard,Le ie,814.9959000002127,tab uriguard,le ie,False,False,10,0.8333333333333334,12,mostly wrong
+37,IMG_20241006_150946.jpg,height150_psm7,tab uriguard,,383.8912999999593,tab uriguard,,False,True,12,1.0,12,no text detected
+38,IMG_20241006_151057.jpg,baseline,tab na dard,,593.0124999999862,tab na dard,,False,True,11,1.0,11,no text detected
+38,IMG_20241006_151057.jpg,preprocessed,tab na dard,,575.002499999755,tab na dard,,False,True,11,1.0,11,no text detected
+38,IMG_20241006_151057.jpg,height150_psm7,tab na dard,H theand,407.67479999976786,tab na dard,h theand,False,False,8,0.7272727272727273,11,mostly wrong
+39,IMG_20241006_151126.jpg,baseline,tab atcam,,494.08579999999347,tab atcam,,False,True,9,1.0,9,no text detected
+39,IMG_20241006_151126.jpg,preprocessed,tab atcam,,791.4486999998189,tab atcam,,False,True,9,1.0,9,no text detected
+39,IMG_20241006_151126.jpg,height150_psm7,tab atcam,or ANC gus |,694.7780000000421,tab atcam,or anc gus,False,False,8,0.8,9,mostly wrong
+40,IMG_20241006_151222.jpg,baseline,tab my d,,725.2020999999331,tab my d,,False,True,8,1.0,8,no text detected
+40,IMG_20241006_151222.jpg,preprocessed,tab my d,,824.103599999944,tab my d,,False,True,8,1.0,8,no text detected
+40,IMG_20241006_151222.jpg,height150_psm7,tab my d,ply,592.3969999998917,tab my d,ply,False,False,7,0.875,8,mostly wrong
+41,IMG_20241006_151517.jpg,baseline,tab ostium,ae oa,1046.068699999978,tab ostium,ae oa,False,False,7,0.7,10,mostly wrong
+41,IMG_20241006_151517.jpg,preprocessed,tab ostium,,1589.1462999998112,tab ostium,,False,True,10,1.0,10,no text detected
+41,IMG_20241006_151517.jpg,height150_psm7,tab ostium,,664.6574000001237,tab ostium,,False,True,10,1.0,10,no text detected
+42,IMG_20241006_151556.jpg,baseline,tab getryl 1mg,oh Uy ry,930.6424000001243,tab getryl 1mg,oh uy ry,False,False,11,0.7857142857142857,14,mostly wrong
+42,IMG_20241006_151556.jpg,preprocessed,tab getryl 1mg,,1075.9124999999585,tab getryl 1mg,,False,True,14,1.0,14,no text detected
+42,IMG_20241006_151556.jpg,height150_psm7,tab getryl 1mg,,428.9463000000069,tab getryl 1mg,,False,True,14,1.0,14,no text detected
+43,IMG_20241006_151638.jpg,baseline,tab covam 5-80mg,,758.768599999712,tab covam 580mg,,False,True,15,1.0,15,no text detected
+43,IMG_20241006_151638.jpg,preprocessed,tab covam 5-80mg,,1115.0719000002027,tab covam 580mg,,False,True,15,1.0,15,no text detected
+43,IMG_20241006_151638.jpg,height150_psm7,tab covam 5-80mg,,385.7416999999259,tab covam 580mg,,False,True,15,1.0,15,no text detected
+44,IMG_20241006_151719.jpg,baseline,tab fexet 60mg,,646.6627999998309,tab fexet 60mg,,False,True,14,1.0,14,no text detected
+44,IMG_20241006_151719.jpg,preprocessed,tab fexet 60mg,,984.3418999998903,tab fexet 60mg,,False,True,14,1.0,14,no text detected
+44,IMG_20241006_151719.jpg,height150_psm7,tab fexet 60mg,,471.4313999998012,tab fexet 60mg,,False,True,14,1.0,14,no text detected
+45,IMG_20241006_151807.jpg,baseline,starcox 90,Seiten >,651.4140999997835,starcox 90,seiten,False,False,9,0.9,10,mostly wrong
+45,IMG_20241006_151807.jpg,preprocessed,starcox 90,,857.8287999998793,starcox 90,,False,True,10,1.0,10,no text detected
+45,IMG_20241006_151807.jpg,height150_psm7,starcox 90,Pouaon 7a,457.2781000001669,starcox 90,pouaon 7a,False,False,8,0.8,10,mostly wrong
+46,IMG_20241006_151901.jpg,baseline,leflox 200mg,,593.172500000037,leflox 200mg,,False,True,12,1.0,12,no text detected
+46,IMG_20241006_151901.jpg,preprocessed,leflox 200mg,,837.9418999998052,leflox 200mg,,False,True,12,1.0,12,no text detected
+46,IMG_20241006_151901.jpg,height150_psm7,leflox 200mg,,352.5105999997322,leflox 200mg,,False,True,12,1.0,12,no text detected
+47,IMG_20241006_152046.jpg,baseline,cefiget 40mg,,603.6050000002433,cefiget 40mg,,False,True,12,1.0,12,no text detected
+47,IMG_20241006_152046.jpg,preprocessed,cefiget 40mg,,924.3584000000737,cefiget 40mg,,False,True,12,1.0,12,no text detected
+47,IMG_20241006_152046.jpg,height150_psm7,cefiget 40mg,Cafe,373.7336000003779,cefiget 40mg,cafe,False,False,9,0.75,12,mostly wrong
+48,IMG_20241006_152156.jpg,baseline,tab lipiget 10mg,,664.4909999999982,tab lipiget 10mg,,False,True,16,1.0,16,no text detected
+48,IMG_20241006_152156.jpg,preprocessed,tab lipiget 10mg,,1094.0006000000722,tab lipiget 10mg,,False,True,16,1.0,16,no text detected
+48,IMG_20241006_152156.jpg,height150_psm7,tab lipiget 10mg,LA,529.4001000002027,tab lipiget 10mg,la,False,False,15,0.9375,16,mostly wrong
+49,IMG_20241006_152333.jpg,baseline,cap risek 20mg,,774.6624999999767,cap risek 20mg,,False,True,14,1.0,14,no text detected
+49,IMG_20241006_152333.jpg,preprocessed,cap risek 20mg,f,1279.059899999993,cap risek 20mg,f,False,False,14,1.0,14,mostly wrong
+49,IMG_20241006_152333.jpg,height150_psm7,cap risek 20mg,"G, Kata",442.7792000001318,cap risek 20mg,g kata,False,False,12,0.8571428571428571,14,mostly wrong
+50,IMG_20241006_152453.jpg,baseline,nebil ,,742.78460000005,nebil,,False,True,5,1.0,5,no text detected
+50,IMG_20241006_152453.jpg,preprocessed,nebil ,,734.7485999998753,nebil,,False,True,5,1.0,5,no text detected
+50,IMG_20241006_152453.jpg,height150_psm7,nebil ,Nord?,543.5096999999587,nebil,nord,False,False,4,0.8,5,mostly wrong
+51,IMG_20241006_152643.jpg,baseline,tab montiget 10mg,,904.5661000000109,tab montiget 10mg,,False,True,17,1.0,17,no text detected
+51,IMG_20241006_152643.jpg,preprocessed,tab montiget 10mg,,1192.391900000075,tab montiget 10mg,,False,True,17,1.0,17,no text detected
+51,IMG_20241006_152643.jpg,height150_psm7,tab montiget 10mg,,540.0543999999172,tab montiget 10mg,,False,True,17,1.0,17,no text detected
+52,IMG_20241006_152937.jpg,baseline,montiget,Mentrge,597.4919000000227,montiget,mentrge,False,False,3,0.375,8,similar letters (edit distance <= 50%)
+52,IMG_20241006_152937.jpg,preprocessed,montiget,,678.7545999995928,montiget,,False,True,8,1.0,8,no text detected
+52,IMG_20241006_152937.jpg,height150_psm7,montiget,| Moonae,343.9017000000604,montiget,moonae,False,False,5,0.625,8,mostly wrong
+53,IMG_20241006_153027.jpg,baseline,getryl,,395.7116000001406,getryl,,False,True,6,1.0,6,no text detected
+53,IMG_20241006_153027.jpg,preprocessed,getryl,,640.214499999729,getryl,,False,True,6,1.0,6,no text detected
+53,IMG_20241006_153027.jpg,height150_psm7,getryl,al,286.3113000003068,getryl,al,False,False,5,0.8333333333333334,6,mostly wrong
+54,IMG_20241006_153118.jpg,baseline,covam,Cova,506.9292000002861,covam,cova,False,False,1,0.2,5,near miss (1-2 character edits)
+54,IMG_20241006_153118.jpg,preprocessed,covam,,533.1223000002865,covam,,False,True,5,1.0,5,no text detected
+54,IMG_20241006_153118.jpg,height150_psm7,covam,Covaes,302.6782000001731,covam,covaes,False,False,2,0.3333333333333333,5,near miss (1-2 character edits)
+55,IMG_20241006_153145.jpg,baseline,fexet,,415.60100000015154,fexet,,False,True,5,1.0,5,no text detected
+55,IMG_20241006_153145.jpg,preprocessed,fexet,,576.7419999997401,fexet,,False,True,5,1.0,5,no text detected
+55,IMG_20241006_153145.jpg,height150_psm7,fexet,fk,295.24510000010196,fexet,fk,False,False,4,0.8,5,mostly wrong
+56,IMG_20241006_153240.jpg,baseline,starcox 90,,498.92490000002,starcox 90,,False,True,10,1.0,10,no text detected
+56,IMG_20241006_153240.jpg,preprocessed,starcox 90,,747.9314000001978,starcox 90,,False,True,10,1.0,10,no text detected
+56,IMG_20241006_153240.jpg,height150_psm7,starcox 90,,370.06350000001476,starcox 90,,False,True,10,1.0,10,no text detected
+57,IMG_20241006_153705.jpg,baseline,leflox,,450.522600000113,leflox,,False,True,6,1.0,6,no text detected
+57,IMG_20241006_153705.jpg,preprocessed,leflox,,586.2440000000788,leflox,,False,True,6,1.0,6,no text detected
+57,IMG_20241006_153705.jpg,height150_psm7,leflox,,397.8814999995848,leflox,,False,True,6,1.0,6,no text detected
+58,IMG_20241006_153802.jpg,baseline,risek,,478.9986000000681,risek,,False,True,5,1.0,5,no text detected
+58,IMG_20241006_153802.jpg,preprocessed,risek,,665.6797000000552,risek,,False,True,5,1.0,5,no text detected
+58,IMG_20241006_153802.jpg,height150_psm7,risek,Asc,503.44360000008237,risek,asc,False,False,4,0.8,5,mostly wrong
+59,IMG_20241006_153855.jpg,baseline,lipiget,,644.5750999996562,lipiget,,False,True,7,1.0,7,no text detected
+59,IMG_20241006_153855.jpg,preprocessed,lipiget,Lippe,1013.5841000001165,lipiget,lippe,False,False,3,0.42857142857142855,7,similar letters (edit distance <= 50%)
+59,IMG_20241006_153855.jpg,height150_psm7,lipiget,Any),368.56360000001587,lipiget,any,False,False,7,1.0,7,mostly wrong
+60,.trashed-1730798177-IMG_20241006_140831 - Copy (2).jpg,baseline,azitma,wy Ve,670.6304999997883,azitma,wy ve,False,False,6,1.0,6,mostly wrong
+60,.trashed-1730798177-IMG_20241006_140831 - Copy (2).jpg,preprocessed,azitma,,854.9007999999958,azitma,,False,True,6,1.0,6,no text detected
+60,.trashed-1730798177-IMG_20241006_140831 - Copy (2).jpg,height150_psm7,azitma,ac rl ‘in,400.8913000002394,azitma,ac rl in,False,False,7,0.875,6,mostly wrong
+61,.trashed-1730798177-IMG_20241006_140831 - Copy (3).jpg,baseline,tonoflox,,587.9398000001856,tonoflox,,False,True,8,1.0,8,no text detected
+61,.trashed-1730798177-IMG_20241006_140831 - Copy (3).jpg,preprocessed,tonoflox,,805.9411999997792,tonoflox,,False,True,8,1.0,8,no text detected
+61,.trashed-1730798177-IMG_20241006_140831 - Copy (3).jpg,height150_psm7,tonoflox,,331.08179999999265,tonoflox,,False,True,8,1.0,8,no text detected
+62,img 10.jpg,baseline,novidate,"&
+bat",564.6165999996811,novidate,bat,False,False,6,0.75,8,mostly wrong
+62,img 10.jpg,preprocessed,novidate,,1164.7342999999637,novidate,,False,True,8,1.0,8,no text detected
+62,img 10.jpg,height150_psm7,novidate,,301.08659999996235,novidate,,False,True,8,1.0,8,no text detected
+63,img 11.jpg,baseline,getryl,,480.83550000001196,getryl,,False,True,6,1.0,6,no text detected
+63,img 11.jpg,preprocessed,getryl,,891.6260000000875,getryl,,False,True,6,1.0,6,no text detected
+63,img 11.jpg,height150_psm7,getryl,,396.9339999998738,getryl,,False,True,6,1.0,6,no text detected
+64,img 12.jpg,baseline,covam,Gar v1,533.5601000001589,covam,gar v1,False,False,6,1.0,5,mostly wrong
+64,img 12.jpg,preprocessed,covam,,607.1631999998317,covam,,False,True,5,1.0,5,no text detected
+64,img 12.jpg,height150_psm7,covam,C evan,355.37969999995767,covam,c evan,False,False,3,0.5,5,similar letters (edit distance <= 50%)
+65,img 13.jpg,baseline,fixit,,443.65220000008776,fixit,,False,True,5,1.0,5,no text detected
+65,img 13.jpg,preprocessed,fixit,,658.8397000000441,fixit,,False,True,5,1.0,5,no text detected
+65,img 13.jpg,height150_psm7,fixit,Fok,363.68050000010044,fixit,fok,False,False,4,0.8,5,mostly wrong
+66,img 14.jpg,baseline,starcox,,376.64500000028056,starcox,,False,True,7,1.0,7,no text detected
+66,img 14.jpg,preprocessed,starcox,J,486.1612999998215,starcox,j,False,False,7,1.0,7,mostly wrong
+66,img 14.jpg,height150_psm7,starcox,,320.6599999998616,starcox,,False,True,7,1.0,7,no text detected
+67,img 15.jpg,baseline,leflox,,459.6160000000964,leflox,,False,True,6,1.0,6,no text detected
+67,img 15.jpg,preprocessed,leflox,,654.0041999996902,leflox,,False,True,6,1.0,6,no text detected
+67,img 15.jpg,height150_psm7,leflox,Aden,314.9874999999156,leflox,aden,False,False,6,1.0,6,mostly wrong
+68,img 16.jpg,baseline,cefeget,,501.0867999999391,cefeget,,False,True,7,1.0,7,no text detected
+68,img 16.jpg,preprocessed,cefeget,,788.3293999998386,cefeget,,False,True,7,1.0,7,no text detected
+68,img 16.jpg,height150_psm7,cefeget,Gober,346.8049999996765,cefeget,gober,False,False,6,0.8571428571428571,7,mostly wrong
+69,img 17.jpg,baseline,risek,,427.51040000030116,risek,,False,True,5,1.0,5,no text detected
+69,img 17.jpg,preprocessed,risek,,636.0706999998911,risek,,False,True,5,1.0,5,no text detected
+69,img 17.jpg,height150_psm7,risek,,294.268899999679,risek,,False,True,5,1.0,5,no text detected
+70,img 18.jpg,baseline,lipiget,,434.904700000061,lipiget,,False,True,7,1.0,7,no text detected
+70,img 18.jpg,preprocessed,lipiget,,746.7130999998517,lipiget,,False,True,7,1.0,7,no text detected
+70,img 18.jpg,height150_psm7,lipiget,Phe,382.74860000001354,lipiget,phe,False,False,5,0.7142857142857143,7,mostly wrong
+71,img 19.jpg,baseline,montiget,,508.06439999996655,montiget,,False,True,8,1.0,8,no text detected
+71,img 19.jpg,preprocessed,montiget,,968.1249000000207,montiget,,False,True,8,1.0,8,no text detected
+71,img 19.jpg,height150_psm7,montiget,,470.49479999986943,montiget,,False,True,8,1.0,8,no text detected
+72,img 20.jpg,baseline,distalgesic,,643.9682000000175,distalgesic,,False,True,11,1.0,11,no text detected
+72,img 20.jpg,preprocessed,distalgesic,,1024.3865000002188,distalgesic,,False,True,11,1.0,11,no text detected
+72,img 20.jpg,height150_psm7,distalgesic,eSAis. om cralgente,493.5746000001018,distalgesic,esais om cralgente,False,False,12,0.6666666666666666,11,mostly wrong
+73,img 21.jpg,baseline,tab atcomid,,596.3455000000977,tab atcomid,,False,True,11,1.0,11,no text detected
+73,img 21.jpg,preprocessed,tab atcomid,,902.0125000001826,tab atcomid,,False,True,11,1.0,11,no text detected
+73,img 21.jpg,height150_psm7,tab atcomid,“30. A,462.03890000015235,tab atcomid,30 a,False,False,9,0.8181818181818182,11,mostly wrong
+74,img 22.jpg,baseline,tab atconate,———s—ss,470.24839999994583,tab atconate,sss,False,False,12,1.0,12,mostly wrong
+74,img 22.jpg,preprocessed,tab atconate,,598.6479000002873,tab atconate,,False,True,12,1.0,12,no text detected
+74,img 22.jpg,height150_psm7,tab atconate,,358.52440000007846,tab atconate,,False,True,12,1.0,12,no text detected
+75,img 23.jpg,baseline,tab mesulid,zs. Mesube,570.3932999999779,tab mesulid,zs mesube,False,False,6,0.5454545454545454,11,mostly wrong
+75,img 23.jpg,preprocessed,tab mesulid,,639.9035999997977,tab mesulid,,False,True,11,1.0,11,no text detected
+75,img 23.jpg,height150_psm7,tab mesulid,ow. Mesut,349.88490000023376,tab mesulid,ow mesut,False,False,6,0.5454545454545454,11,mostly wrong
+76,img 24.jpg,baseline,tab movelate,,569.2876000002798,tab movelate,,False,True,12,1.0,12,no text detected
+76,img 24.jpg,preprocessed,tab movelate,,834.3639999998231,tab movelate,,False,True,12,1.0,12,no text detected
+76,img 24.jpg,height150_psm7,tab movelate,suo. MoV,458.6506000000554,tab movelate,suo mov,False,False,8,0.6666666666666666,12,mostly wrong
+77,img 25.jpg,baseline,tab uriguard,ye -,621.6660999998567,tab uriguard,ye,False,False,12,1.0,12,mostly wrong
+77,img 25.jpg,preprocessed,tab uriguard,,804.1793000002144,tab uriguard,,False,True,12,1.0,12,no text detected
+77,img 25.jpg,height150_psm7,tab uriguard,ao - Vo fea,475.8569999999054,tab uriguard,ao vo fea,False,False,9,0.75,12,mostly wrong
+78,img 26.jpg,baseline,tab na dard,"WW -
+
+Na Awa",650.854800000161,tab na dard,ww na awa,False,False,6,0.5454545454545454,11,partly right (shares a whole word)
+78,img 26.jpg,preprocessed,tab na dard,,744.5127000000866,tab na dard,,False,True,11,1.0,11,no text detected
+78,img 26.jpg,height150_psm7,tab na dard,7 Na dad,365.39489999995567,tab na dard,7 na dad,False,False,4,0.36363636363636365,11,partly right (shares a whole word)
+79,img 27.jpg,baseline,tab atcam,Ours — Nh + Cam,549.1845999999896,tab atcam,ours nh cam,False,False,7,0.6363636363636364,9,mostly wrong
+79,img 27.jpg,preprocessed,tab atcam,,666.4537999999993,tab atcam,,False,True,9,1.0,9,no text detected
+79,img 27.jpg,height150_psm7,tab atcam,Us — KF Cams,405.57680000028995,tab atcam,us kf cams,False,False,7,0.7,9,mostly wrong
+80,img 28.jpg,baseline,my-d,,362.21870000008494,myd,,False,True,3,1.0,3,no text detected
+80,img 28.jpg,preprocessed,my-d,,552.1655000002283,myd,,False,True,3,1.0,3,no text detected
+80,img 28.jpg,height150_psm7,my-d,MWY =),422.39729999982956,myd,mwy,False,False,2,0.6666666666666666,3,near miss (1-2 character edits)
+81,img 29.jpg,baseline,ostium,(DSA\U WW,474.4044999997641,ostium,dsau ww,False,False,6,0.8571428571428571,6,mostly wrong
+81,img 29.jpg,preprocessed,ostium,(> SA\U WW,509.87209999993865,ostium,sau ww,False,False,6,1.0,6,mostly wrong
+81,img 29.jpg,height150_psm7,ostium,(DSA\UW,357.34420000017053,ostium,dsauw,False,False,4,0.6666666666666666,6,mostly wrong
+82,img 3 .jpg,baseline,nims,,542.2416999999768,nims,,False,True,4,1.0,4,no text detected
+82,img 3 .jpg,preprocessed,nims,,828.055200000108,nims,,False,True,4,1.0,4,no text detected
+82,img 3 .jpg,height150_psm7,nims,,347.94289999990724,nims,,False,True,4,1.0,4,no text detected
+83,img 4.jpg,baseline,dicloran,"a
+
+; a
+é",689.0095999997357,dicloran,a a,False,False,7,0.875,8,mostly wrong
+83,img 4.jpg,preprocessed,dicloran,,1224.9433000001773,dicloran,,False,True,8,1.0,8,no text detected
+83,img 4.jpg,height150_psm7,dicloran,,309.6837000002779,dicloran,,False,True,8,1.0,8,no text detected
+84,img 5.jpg,baseline,breeky,,720.4022000000805,breeky,,False,True,6,1.0,6,no text detected
+84,img 5.jpg,preprocessed,breeky,,1440.2530999996088,breeky,,False,True,6,1.0,6,no text detected
+84,img 5.jpg,height150_psm7,breeky,1 = ! a :,466.00820000003296,breeky,1 a,False,False,6,1.0,6,mostly wrong
+85,img 6.jpg,baseline,provas,,583.5405000002538,provas,,False,True,6,1.0,6,no text detected
+85,img 6.jpg,preprocessed,provas,,1130.2855999997519,provas,,False,True,6,1.0,6,no text detected
+85,img 6.jpg,height150_psm7,provas,,406.5350999999282,provas,,False,True,6,1.0,6,no text detected
+86,img 7.jpg,baseline,movax,,521.6074999998455,movax,,False,True,5,1.0,5,no text detected
+86,img 7.jpg,preprocessed,movax,,936.2034999999196,movax,,False,True,5,1.0,5,no text detected
+86,img 7.jpg,height150_psm7,movax,,304.9940000000788,movax,,False,True,5,1.0,5,no text detected
+87,img 8.jpg,baseline,caricef,,518.7065000000075,caricef,,False,True,7,1.0,7,no text detected
+87,img 8.jpg,preprocessed,caricef,,828.8926000000174,caricef,,False,True,7,1.0,7,no text detected
+87,img 8.jpg,height150_psm7,caricef,,290.34539999975095,caricef,,False,True,7,1.0,7,no text detected
+88,img 9.jpg,baseline,bisleri,,477.0201999999699,bisleri,,False,True,7,1.0,7,no text detected
+88,img 9.jpg,preprocessed,bisleri,,772.6724999997714,bisleri,,False,True,7,1.0,7,no text detected
+88,img 9.jpg,height150_psm7,bisleri,,311.1861000002136,bisleri,,False,True,7,1.0,7,no text detected

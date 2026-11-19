@@ -8,3 +8,5 @@ nbformat
 pillow
 pytesseract
 pytest
+nbclient
+nbconvert

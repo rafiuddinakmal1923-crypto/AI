@@ -3,7 +3,7 @@ Lab 05 — Robotics: Sensor-to-Action Control
 Converted from lab05_robotics_sensor_control_worked.ipynb for use in VS Code.
 
 Dataset expected:
-    all_datasets/lab05-sensor_readings_24.csv
+    all_datasets/Lab 5/sensor_readings_24.csv
 
 The CSV has no header: 24 ultrasonic distances (metres), followed by an action label.
 
@@ -14,7 +14,7 @@ Run from the project folder:
     python lab05_robotics_sensor_control.py
 
 Or specify paths:
-    python lab05_robotics_sensor_control.py --data path/to/lab05-sensor_readings_24.csv
+    python lab05_robotics_sensor_control.py --data path/to/sensor_readings_24.csv
     python lab05_robotics_sensor_control.py --results path/to/results/lab05
 """
 
@@ -44,9 +44,8 @@ def parse_args() -> argparse.Namespace:
     """Parse command-line options."""
     script_dir = Path(__file__).resolve().parent
     default_candidates = [
-        Path.cwd() / "all_datasets" / "lab05-sensor_readings_24.csv",
-        script_dir / "all_datasets" / "lab05-sensor_readings_24.csv",
-        script_dir.parent / "all_datasets" / "lab05-sensor_readings_24.csv",
+        script_dir.parent / "all_datasets" / "Lab 5" / "sensor_readings_24.csv",
+        Path.cwd() / "all_datasets" / "Lab 5" / "sensor_readings_24.csv",
     ]
     default_data = next((p for p in default_candidates if p.exists()), default_candidates[0])
 
@@ -57,7 +56,7 @@ def parse_args() -> argparse.Namespace:
         "--data",
         type=Path,
         default=default_data,
-        help="Path to lab05-sensor_readings_24.csv (default: auto-detected all_datasets folder).",
+        help="Path to sensor_readings_24.csv (default: auto-detected all_datasets folder).",
     )
     parser.add_argument(
         "--results",
@@ -83,9 +82,9 @@ def main() -> int:
     if not data_path.is_file():
         print(f"ERROR: Dataset not found:\n  {data_path}", file=sys.stderr)
         print(
-            "\nPlace 'lab05-sensor_readings_24.csv' inside an 'all_datasets' folder, "
+            "\nPlace 'sensor_readings_24.csv' inside 'all_datasets/Lab 5/', "
             "or run with:\n"
-            '  python lab05_robotics_sensor_control.py --data "FULL/PATH/TO/lab05-sensor_readings_24.csv"',
+            '  python lab05_robotics_sensor_control.py --data "FULL/PATH/TO/sensor_readings_24.csv"',
             file=sys.stderr,
         )
         return 1
