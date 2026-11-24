@@ -1,0 +1,15 @@
+('Airline', 'operates', 'Flight')
+('Passenger', 'books', 'Flight')
+('Flight', 'has', 'Destination')
+('Flight', 'has', 'Departure Time')
+('Flight', 'can be', 'Delayed')
+('Flight', 'can be', 'Cancelled')
+('Delayed', 'may cause', 'Passenger Complaint')
+('Cancelled', 'may cause', 'Passenger Complaint')
+('Passenger Complaint', 'is handled by', 'Customer Support')
+
+Everything linked from Flight:
+  Flight --has--> Destination
+  Flight --has--> Departure Time
+  Flight --can be--> Delayed
+  Flight --can be--> Cancelled
