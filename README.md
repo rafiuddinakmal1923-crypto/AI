@@ -14,9 +14,13 @@ data and output folders relative to its own location, so you can run it from any
 | 4 | Fuzzy logic and ANFIS (air quality) | `lab04_fuzzy_anfis.py` | `results/lab04/` |
 | 5 | Robotics: sensor-to-action control | `lab05_robotics_sensor_control.py` | `results/lab05/` |
 | 6 | Handwritten prescription OCR (Tesseract) | `lab06_handwriting_ocr.py` | `results/lab06/` |
+| 7 | Airline tweet sentiment (bag of words + Naive Bayes) | `lab07_airline_sentiment.py` | `results/lab07/` |
+| 8 | Genetic algorithm for regression vs OLS | `lab08_genetic_algorithm_regression.py` | `results/lab08/` |
 
-A study guide for Labs 2, 3 and 6 is in [`docs/GUIDE.md`](docs/GUIDE.md). The output
-comparison with a classmate's results is in [`docs/COMPARISON.md`](docs/COMPARISON.md).
+Study guides: Labs 2, 3 and 6 in [`docs/GUIDE.md`](docs/GUIDE.md), and Labs 7 and 8 in
+[`docs/GUIDE_LAB07_08.md`](docs/GUIDE_LAB07_08.md). The output comparison with a classmate's
+results is in [`docs/COMPARISON.md`](docs/COMPARISON.md). Labs 7 and 8 are based on the lecturer's
+scripts; the small fixes are listed at the top of each file.
 
 ## Setup (Windows)
 
@@ -44,6 +48,8 @@ python all_experiments/lab05_robotics_sensor_control.py
 python all_experiments/lab06_handwriting_ocr.py              # about 2 minutes
 python all_experiments/lab06_handwriting_ocr.py --ablation   # also tests each preprocessing step (~5 more minutes)
 python all_experiments/lab06_handwriting_ocr.py --limit 5    # quick check on 5 images
+python all_experiments/lab07_airline_sentiment.py
+python all_experiments/lab08_genetic_algorithm_regression.py
 ```
 
 Route finder (Lab 3) and tests. Run these from inside `all_experiments/`:
@@ -67,5 +73,6 @@ all_experiments/       lab scripts
                        search_runner.py (heuristic + run-by-name), __main__.py (CLI), tests
 results/labNN/         CSVs and figures produced by each script
 assignments/           assignment documents
+  reference_drafts/    worked reference drafts (study only, not for submission as-is)
 docs/                  study guide and output comparison
 ```
