@@ -13,7 +13,7 @@ data and output folders relative to its own location, so you can run it from any
 | 3 | Search engineering: benchmark, CLI, tests | `lab03_search_engineering.py` | `results/lab03/` |
 | 4 | Fuzzy logic and ANFIS (air quality) | `lab04_fuzzy_anfis.py` | `results/lab04/` |
 | 5 | Robotics: sensor-to-action control | `lab05_robotics_sensor_control.py` | `results/lab05/` |
-| 6 | Handwritten prescription OCR (Tesseract) | `lab06_handwriting_ocr.py` | `results/lab06/` |
+| 6 | Handwritten prescription OCR (Tesseract, follows the lecturer's handout) | `lab06_handwriting_ocr.py` | `results/lab06/` |
 | 7 | Airline tweet sentiment (bag of words + Naive Bayes) | `lab07_airline_sentiment.py` | `results/lab07/` |
 | 8 | Genetic algorithm for regression vs OLS | `lab08_genetic_algorithm_regression.py` | `results/lab08/` |
 
@@ -46,7 +46,7 @@ python all_experiments/lab03_search_engineering.py
 python all_experiments/lab04_fuzzy_anfis.py
 python all_experiments/lab05_robotics_sensor_control.py
 python all_experiments/lab06_handwriting_ocr.py              # about 2 minutes
-python all_experiments/lab06_handwriting_ocr.py --ablation   # also tests each preprocessing step (~5 more minutes)
+python all_experiments/lab06_handwriting_ocr.py --ablation   # extra: tests each preprocessing step (~3 more minutes)
 python all_experiments/lab06_handwriting_ocr.py --limit 5    # quick check on 5 images
 python all_experiments/lab07_airline_sentiment.py
 python all_experiments/lab08_genetic_algorithm_regression.py

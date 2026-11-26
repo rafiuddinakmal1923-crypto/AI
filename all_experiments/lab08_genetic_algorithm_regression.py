@@ -1,16 +1,3 @@
-"""
-Lab 08 — Genetic Algorithms: Regression and Reproducibility
-A genetic algorithm (GA) searches for the coefficients of a linear model that predicts
-medical insurance charges, and is compared with ordinary least squares (OLS).
-
-Run:     python all_experiments/lab08_genetic_algorithm_regression.py
-Data:    all_datasets/Lab 8/insurance.csv
-Saves:   results/lab08/
-
-Based on the lecturer's lab08_genetic_algorithm_regression.py. Only change: paths are
-resolved from this file's location and use the per-lab folder all_datasets/Lab 8/.
-"""
-
 import time
 from pathlib import Path
 

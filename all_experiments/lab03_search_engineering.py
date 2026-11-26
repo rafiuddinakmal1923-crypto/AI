@@ -1,22 +1,4 @@
-"""
-Lab 3 of 8 - Search Engineering and Benchmarking
-Objective: benchmark all five search algorithms (BFS, DFS, UCS, GBFS, A*) on
-the airline graph in a reproducible way, and check the results make sense.
 
-What this script does
-    1. Builds the list of test queries: all of search_queries.csv plus extra
-       random origin/destination pairs (fixed seed, so the same pairs every run).
-    2. Runs every algorithm on every query and saves one row per run to
-       results/lab03/benchmark.csv.
-    3. Sanity-checks the results (valid routes, A* cost == UCS cost, BFS uses
-       the fewest hops).
-    4. Summarises per algorithm in results/lab03/benchmark_summary.csv and
-       draws results/lab03/benchmark_expansions.png.
-
-Companion tools:
-    python -m utils --algorithm astar --start KUL --goal KEF    (command-line route finder)
-    python -m pytest utils -q                                   (unit tests, run inside all_experiments/)
-"""
 from __future__ import annotations
 
 from pathlib import Path
