@@ -68,7 +68,5 @@ all_experiments/       lab scripts
   utils/               shared search code (core.py, openflights.py, plotting.py),
                        search_runner.py (heuristic + run-by-name), __main__.py (CLI), tests
 results/labNN/         CSVs and figures produced by each script
-assignments/           assignment documents
-  reference_drafts/    worked reference drafts (study only, not for submission as-is)
-docs/                  study guide and output comparison
+assignments/           assignment documents and their code
 ```
