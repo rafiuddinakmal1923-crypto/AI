@@ -1,11 +1,4 @@
-"""Lab 4 of 8 — Fuzzy Logic and ANFIS with Air-Quality Data
-Run this directly in VS Code: click "Run Python File" (top-right play button)
-or type `python lab04_fuzzy_anfis.py` in the integrated terminal.
 
-Expected location: all_experiments/lab04_fuzzy_anfis.py
-Needs:             all_datasets/Lab 4/AirQuality.csv
-Saves evidence to: results/lab04/
-"""
 from itertools import product
 from pathlib import Path
 

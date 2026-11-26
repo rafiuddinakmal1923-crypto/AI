@@ -1,18 +1,3 @@
-"""Lab 7: Airline Tweet Sentiment Classification (bag of words + Multinomial Naive Bayes).
-Install: python -m pip install pandas numpy scikit-learn matplotlib
-Run:     python all_experiments/lab07_airline_sentiment.py
-Data:    all_datasets/Lab 7/Tweets.csv
-Saves:   results/lab07/
-
-Based on the lecturer's lab07_airline_sentiment.py. Changes from that version:
-  1. Paths are resolved from this file's location and use the per-lab folder
-     all_datasets/Lab 7/ (this repo keeps one dataset folder per lab).
-  2. Section headings printed a literal backslash + "n" instead of starting a new line.
-  3. The URL pattern for "www." links had a doubled backslash inside a raw string, so it
-     looked for a literal backslash and never matched; fixed (affects 1 tweet).
-  4. Printing is forced to UTF-8 so tweets containing emoji do not crash the script
-     when the output is redirected to a file on Windows.
-"""
 import argparse, re, sys
 from pathlib import Path
 import numpy as np
@@ -27,7 +12,7 @@ from sklearn.metrics import (accuracy_score, precision_recall_fscore_support,
 LABELS = ["negative", "neutral", "positive"]
 SEED = 42
 
-# Tweets contain emoji; make sure printing them never crashes on a Windows console.
+# Tweets contain emoji make sure printing them never crashes on a Windows console.
 sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 
 # Paths are built from this file's location, so it works from any terminal folder.

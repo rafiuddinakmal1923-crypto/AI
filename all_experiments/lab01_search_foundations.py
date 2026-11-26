@@ -1,11 +1,4 @@
-"""
-Lab 1 of 8 - Search Foundations on an Airline Network
-Objective: Implement and compare BFS, DFS and Uniform-Cost Search on one cleaned airline graph.
 
-Plain Python script version of the Lab 1 notebook (no Jupyter needed).
-Save this file in:  AI/all_experiments/
-Run it with the Run button (top right in VS Code) or:  python lab01_search_foundations.py
-"""
 
 from pathlib import Path
 

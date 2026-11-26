@@ -1,4 +1,4 @@
-"""Q2(a) - Draw the semantic network as semantic_network.png (REFERENCE DRAFT)."""
+
 from pathlib import Path
 
 import matplotlib

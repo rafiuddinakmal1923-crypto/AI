@@ -1,19 +1,4 @@
-"""
-Lab 2 of 8 - Informed (Heuristic) Search on the Airline Network
-Objective: show how a good heuristic makes search cheaper without losing the
-cheapest route, using the same OpenFlights graph as Lab 1.
 
-What this script does
-    1. Runs UCS, Greedy Best-First (GBFS), A* and weighted A* (h x 1.5) on the
-       first 3 queries in search_queries.csv.
-    2. Records path, hops, cost_km, nodes expanded, max frontier, runtime and
-       gap_pct (how much more expensive than the UCS optimum the route is).
-    3. Checks the heuristic really is admissible: h(n) <= true cheapest cost
-       from n to the goal, for EVERY airport that can reach the goal.
-    4. Saves results/lab02/metrics.csv, heuristic_check.csv and expanded_nodes.png.
-
-Run it from anywhere:   python all_experiments/lab02_informed_search.py
-"""
 from __future__ import annotations
 
 from heapq import heappop, heappush

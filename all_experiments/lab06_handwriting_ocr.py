@@ -1,33 +1,30 @@
 """
-Lab 6 of 8 - OCR on Handwritten Prescriptions
-Objective: measure how well Tesseract reads doctors' handwriting, and whether
-simple image preprocessing helps.
+Lab 6 of 8 - NLP Foundations: Handwriting OCR Evaluation
+Objective: benchmark Tesseract on 89 labelled handwritten medicine-name images, test ONE
+controlled preprocessing pipeline, and classify the failures.
 
-Data:   all_datasets/Lab 6/img/img/*.jpg            (89 cropped photos, one line each)
-        all_datasets/Lab 6/doctor_handwriting_labels.csv   (filename, label)
+Follows the lecturer's handout (lab06_handwriting_ocr_worked.py + week 9 slides):
+    * one fixed Tesseract configuration for every image:  --oem 1 --psm 7
+        --oem 1  = LSTM (neural network) recognition engine
+        --psm 7  = treat the image as a single line of text
+    * normalise both label and prediction: lowercase, keep only letters and digits
+      ("Tab Azimax 40mg" -> "tabazimax40mg")
+    * pipeline 1 "baseline":                 the raw photo
+    * pipeline 2 "grayscale_border_resize":  grayscale -> 20 px white border ->
+                                             cap width at 1,200 px -> enlarge 1.5x (bicubic)
+    * metrics: exact-match accuracy, mean normalised edit distance, character error rate (CER),
+      blank predictions
+    * failure types: engine error / no text detected / character confusion
 
-Pipelines compared
-    baseline           raw photo -> Tesseract (default page segmentation, --psm 3)
-    preprocessed       grayscale -> autocontrast -> white border -> 2x upscale -> Tesseract
-    height150_psm7     (my own) grayscale -> autocontrast -> white border -> resize to 150 px
-                       high -> Tesseract told the image is ONE line of text (--psm 7).
-                       Why: (1) these photos are already large, so a 2x upscale makes the
-                       letters far bigger than Tesseract is trained on; a fixed height
-                       brings every image to a similar, moderate letter size. (2) every crop
-                       is a single line, so --psm 7 skips the page-layout step that often
-                       decides there is "no text". Run with --ablation to see each step's effect.
+Data:   all_datasets/Lab 6/img/img/*.jpg  +  all_datasets/Lab 6/doctor_handwriting_labels.csv
+Saves:  results/lab06/  sample_grid.png, predictions.csv, metrics.csv, preprocessed/*.png,
+        error_analysis.csv, ocr_failures.png   (+ ablation.csv with --ablation)
 
-Metrics (after normalising: lowercase, no punctuation, single spaces)
-    exact-match accuracy, mean normalised edit distance, character error rate (CER),
-    number of blank predictions.
-
-Saves to results/lab06/: metrics.csv, predictions.csv, error_analysis.csv,
-preprocessed/*.jpg, sample_grid.png, ocr_failures.png  (+ ablation.csv with --ablation)
-
-Needs the Tesseract PROGRAM (not just the pytesseract package). On Windows:
+Needs the Tesseract PROGRAM (pytesseract is only a wrapper). On Windows:
     winget install --id UB-Mannheim.TesseractOCR
-Run:  python all_experiments/lab06_handwriting_ocr.py          (add --limit 5 for a quick test)
-      python all_experiments/lab06_handwriting_ocr.py --ablation   (also test each step, ~5 min)
+Run:  python all_experiments/lab06_handwriting_ocr.py               (about 2 minutes)
+      python all_experiments/lab06_handwriting_ocr.py --limit 5     (quick test on 5 images)
+      python all_experiments/lab06_handwriting_ocr.py --ablation    (extra: each step on its own)
 """
 from __future__ import annotations
 
@@ -36,17 +33,16 @@ import os
 import re
 import shutil
 import sys
-from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
-from time import perf_counter
 
 import matplotlib
 
 matplotlib.use("Agg")                     # save figures to file, no pop-up window needed
 import matplotlib.pyplot as plt
+import numpy as np
 import pandas as pd
 import pytesseract
-from PIL import Image, ImageOps
+from PIL import Image, ImageFile, ImageOps
 
 # ---------------------------------------------------------------------------
 # Paths are built from this file's location, so it works from any terminal folder.
@@ -58,10 +54,14 @@ IMAGE_DIR = DATA / "img" / "img"
 LABELS_FILE = DATA / "doctor_handwriting_labels.csv"
 RESULTS = ROOT / "results" / "lab06"
 
-BORDER_PX = 40            # white margin added around the text (Tesseract dislikes text touching the edge)
-UPSCALE = 2               # enlarge so pen strokes are several pixels thick
-TARGET_HEIGHT = 150       # my pipeline: every image is resized to this height (px), up or down
-OCR_LANGUAGE = "eng"
+# Fixed experiment settings (from the handout). Only the IMAGE changes between pipelines.
+OCR_CONFIG = "--oem 1 --psm 7"
+BORDER_PX = 20
+MAX_WIDTH = 1200
+ENLARGE = 1.5
+
+# Some phone photos are slightly truncated; load them anyway instead of crashing.
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 # Places tesseract.exe is usually installed on Windows (checked in this order).
 TESSERACT_LOCATIONS = [
@@ -95,7 +95,7 @@ def heading(text: str) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Step 0 - make sure Tesseract can be found
+# Setup - make sure Tesseract can be found
 # ---------------------------------------------------------------------------
 def setup_tesseract() -> str:
     """Point pytesseract at tesseract.exe and return its version, or exit with help."""
@@ -111,324 +111,283 @@ def setup_tesseract() -> str:
 
 
 # ---------------------------------------------------------------------------
-# Step 1 - images and preprocessing
+# Question 1 - validate the data
 # ---------------------------------------------------------------------------
+def load_labels(limit: int | None = None) -> pd.DataFrame:
+    """Read the label file and check every labelled image exists exactly once."""
+    labels = pd.read_csv(LABELS_FILE)
+    labels["path"] = [IMAGE_DIR / name for name in labels["filename"]]
+    missing = [str(p.name) for p in labels["path"] if not p.is_file()]
+    assert labels["filename"].is_unique, "a filename appears twice in the label file"
+    assert not missing, f"labelled images missing from {IMAGE_DIR}: {missing[:5]}"
+    if limit:
+        labels = labels.head(limit)
+    return labels.reset_index(drop=True)
+
+
 def load_image(path: Path) -> Image.Image:
-    """Open a photo the right way up (phones store rotation in EXIF) as RGB."""
+    """Read the pixels now (and close the file) - the raw photo, exactly as stored."""
     with Image.open(path) as image:
-        return ImageOps.exif_transpose(image).convert("RGB")
+        return image.copy()
 
 
-def to_gray(image: Image.Image) -> Image.Image:
-    return ImageOps.grayscale(image)                              # colour carries no information here
-
-
-def gray_autocontrast(image: Image.Image) -> Image.Image:
-    return ImageOps.autocontrast(to_gray(image), cutoff=2)       # ink -> near black, paper -> near white
-
-
-def clean(image: Image.Image) -> Image.Image:
-    """grayscale -> autocontrast -> white border (shared by both preprocessing pipelines)."""
-    return ImageOps.expand(gray_autocontrast(image), border=BORDER_PX, fill=255)
-
-
-def preprocess(image: Image.Image) -> Image.Image:
-    """The required pipeline: grayscale -> autocontrast -> white border -> 2x upscale."""
-    cleaned = clean(image)
-    return cleaned.resize((cleaned.width * UPSCALE, cleaned.height * UPSCALE), Image.Resampling.LANCZOS)
-
-
-def resize_to_height(image: Image.Image, height: int) -> Image.Image:
-    scale = height / image.height
-    return image.resize((max(1, round(image.width * scale)), height), Image.Resampling.LANCZOS)
-
-
-def preprocess_fixed_height(image: Image.Image) -> Image.Image:
-    """My pipeline: same cleaning, but resize to a fixed height instead of always doubling."""
-    return resize_to_height(clean(image), TARGET_HEIGHT)
-
-
-def no_preprocessing(image: Image.Image) -> Image.Image:
-    return image
-
-
-# name -> (image function, Tesseract options, short description)
-PIPELINES = {
-    "baseline": (no_preprocessing, "--psm 3", "raw photo, default page segmentation"),
-    "preprocessed": (preprocess, "--psm 3", "gray + autocontrast + border + 2x upscale"),
-    "height150_psm7": (preprocess_fixed_height, "--psm 7",
-                       f"gray + autocontrast + border + resize to {TARGET_HEIGHT}px high, single text line"),
-}
+def plot_sample_grid(labels: pd.DataFrame, path: Path) -> None:
+    """3 x 3 grid of the first nine photos with their labels."""
+    figure, axes = plt.subplots(3, 3, figsize=(10, 6))
+    for axis, row in zip(axes.flat, labels.head(9).itertuples()):
+        axis.imshow(load_image(row.path))
+        axis.set_title(row.label, fontsize=9)
+        axis.axis("off")
+    figure.tight_layout()
+    figure.savefig(path, dpi=150)
+    plt.close(figure)
 
 
 # ---------------------------------------------------------------------------
-# Step 2 - text normalisation and scoring
+# Question 2 - OCR and normalisation
 # ---------------------------------------------------------------------------
 def normalise(text: str) -> str:
-    """lowercase, drop punctuation/symbols, squeeze spaces: ' Tab. Azimax\\n' -> 'tab azimax'."""
-    text = str(text).lower()
-    text = re.sub(r"[^a-z0-9\s]", "", text)        # keep only letters, digits and spaces
-    return " ".join(text.split())
+    """Lowercase and keep only letters and digits: 'Tab Azimax 40mg' -> 'tabazimax40mg'.
+
+    The SAME rule is applied to the label and the prediction, so differences in case,
+    spacing or punctuation are not counted as OCR errors.
+    """
+    return re.sub(r"[^a-z0-9]", "", str(text).lower())
 
 
+def read_text(image: Image.Image) -> tuple[str, str, str]:
+    """OCR one image. Returns (prediction, status, detail).
+
+    If Tesseract itself fails on an image we RECORD the failure ("engine_error") and keep
+    the image in the benchmark, instead of crashing or silently dropping it.
+    """
+    try:
+        return pytesseract.image_to_string(image, config=OCR_CONFIG).strip(), "ok", ""
+    except pytesseract.TesseractError as error:
+        return "", "engine_error", str(error.message)[:160]
+
+
+def run_ocr(labels: pd.DataFrame, images: list, pipeline: str) -> pd.DataFrame:
+    """One auditable row per image: label, prediction, both normalised, engine status."""
+    rows = []
+    for item, image in zip(labels.itertuples(), images):
+        prediction, status, detail = read_text(image)
+        rows.append({
+            "filename": item.filename,
+            "pipeline": pipeline,
+            "truth": item.label,
+            "prediction": prediction,
+            "truth_norm": normalise(item.label),
+            "prediction_norm": normalise(prediction),
+            "ocr_status": status,
+            "ocr_detail": detail,
+        })
+        done = len(rows)
+        if done % 20 == 0 or done == len(labels):
+            print(f"  {pipeline}: {done}/{len(labels)} images")
+    return pd.DataFrame(rows)
+
+
+# ---------------------------------------------------------------------------
+# Question 3 - measure recognition quality
+# ---------------------------------------------------------------------------
 def levenshtein(a: str, b: str) -> int:
     """Minimum number of single-character inserts, deletes or substitutions to turn a into b.
 
-    Classic dynamic programming, keeping only one previous row of the table.
+    Dynamic programming, keeping one row of the table at a time:
+    previous[j] = distance between the first i-1 characters of a and the first j of b.
     """
-    if len(a) < len(b):
-        a, b = b, a
     previous = list(range(len(b) + 1))
     for i, char_a in enumerate(a, start=1):
         current = [i]
         for j, char_b in enumerate(b, start=1):
             current.append(min(
-                previous[j] + 1,                        # delete char_a
                 current[j - 1] + 1,                     # insert char_b
+                previous[j] + 1,                        # delete char_a
                 previous[j - 1] + (char_a != char_b),   # substitute (free if equal)
             ))
         previous = current
     return previous[-1]
 
 
-def failure_type(truth: str, raw_prediction: str, prediction: str, distance: int) -> str:
-    """Put each prediction into one bucket so we can count the typical mistakes."""
-    if prediction == truth:
-        return "correct"
-    if not raw_prediction.strip():
-        return "no text detected"
-    if not prediction:
-        return "symbols only (no letters/digits)"
-    if distance <= 2:
-        return "near miss (1-2 character edits)"
-    if set(truth.split()) & set(prediction.split()):
-        return "partly right (shares a whole word)"
-    if distance / max(len(truth), len(prediction)) <= 0.5:
-        return "similar letters (edit distance <= 50%)"
-    return "mostly wrong"
+def add_distances(frame: pd.DataFrame) -> pd.DataFrame:
+    frame = frame.copy()
+    frame["exact"] = frame["truth_norm"] == frame["prediction_norm"]
+    frame["edits"] = [levenshtein(t, p) for t, p in zip(frame["truth_norm"], frame["prediction_norm"])]
+    # divide by the LONGER string so the value stays between 0 (identical) and 1
+    longest = np.maximum(frame["truth_norm"].str.len(), frame["prediction_norm"].str.len()).clip(lower=1)
+    frame["normalised_edit_distance"] = frame["edits"] / longest
+    return frame
 
 
-def score(truth_raw: str, raw_prediction: str) -> dict:
-    truth = normalise(truth_raw)
-    prediction = normalise(raw_prediction)
-    distance = levenshtein(truth, prediction)
+def summarise(frame: pd.DataFrame) -> dict:
     return {
-        "truth_norm": truth,
-        "prediction_norm": prediction,
-        "exact_match": prediction == truth,
-        "blank": prediction == "",
-        "edit_distance": distance,
-        # 0 = identical, 1 = nothing in common (divide by the longer string so it stays in [0, 1])
-        "normalised_edit_distance": distance / max(len(truth), len(prediction), 1),
-        "truth_chars": len(truth),
-        "failure_type": failure_type(truth, raw_prediction, prediction, distance),
+        "pipeline": frame["pipeline"].iat[0],
+        "exact_match_accuracy": frame["exact"].mean(),
+        "mean_normalised_edit_distance": frame["normalised_edit_distance"].mean(),
+        # CER = total edits / total reference characters (can be > 1 if the OCR adds junk)
+        "character_error_rate": frame["edits"].sum() / frame["truth_norm"].str.len().sum(),
+        "blank_predictions": int((frame["prediction_norm"] == "").sum()),
+        "engine_errors": int((frame["ocr_status"] == "engine_error").sum()),
     }
 
 
 # ---------------------------------------------------------------------------
-# Step 3 - run OCR
+# Question 4 - one preprocessing pipeline
 # ---------------------------------------------------------------------------
-def run_ocr(labels: pd.DataFrame, save_dir: Path) -> pd.DataFrame:
-    """Run every pipeline on every image. Returns one row per (image, pipeline)."""
-    save_dir.mkdir(parents=True, exist_ok=True)
-    rows = []
-    for index, item in enumerate(labels.itertuples(index=False)):
-        original = load_image(IMAGE_DIR / item.filename)
-        cleaned = preprocess(original)
-        # Evidence of what Tesseract saw. Saved at 1x size as JPEG: the 2x PNG is ~1 MB per
-        # image (~90 MB in total) and upscaling adds no new detail, so a smaller copy is enough.
-        evidence = cleaned.resize((cleaned.width // UPSCALE, cleaned.height // UPSCALE))
-        evidence.save(save_dir / f"{index:03d}.jpg", quality=85)
-
-        for name, (prepare, options, _) in PIPELINES.items():
-            image = cleaned if prepare is preprocess else prepare(original)   # reuse, don't redo
-            started = perf_counter()
-            raw = pytesseract.image_to_string(image, lang=OCR_LANGUAGE, config=options)
-            runtime_ms = (perf_counter() - started) * 1000
-            rows.append({
-                "image_id": index,
-                "filename": item.filename,
-                "pipeline": name,
-                "truth": item.label,
-                "raw_prediction": raw.strip(),
-                "runtime_ms": runtime_ms,
-                **score(item.label, raw),
-            })
-        if (index + 1) % 10 == 0 or index + 1 == len(labels):
-            print(f"  OCR done for {index + 1}/{len(labels)} images")
-    return pd.DataFrame(rows)
+def to_grayscale(image: Image.Image) -> Image.Image:
+    """Turn the photo the right way up (phones store rotation in EXIF) and drop colour."""
+    return ImageOps.exif_transpose(image).convert("L")
 
 
-def summarise(predictions: pd.DataFrame) -> pd.DataFrame:
-    rows = []
-    for name, group in predictions.groupby("pipeline", sort=False):
-        rows.append({
-            "pipeline": name,
-            "description": PIPELINES[name][2],
-            "images": len(group),
-            "exact_match_accuracy": group["exact_match"].mean(),
-            "mean_normalised_edit_distance": group["normalised_edit_distance"].mean(),
-            # CER over the whole dataset: total edits / total characters in the true labels
-            "character_error_rate": group["edit_distance"].sum() / group["truth_chars"].sum(),
-            "blank_predictions": int(group["blank"].sum()),
-            "median_runtime_ms": group["runtime_ms"].median(),
-        })
-    return pd.DataFrame(rows)
+def add_border(image: Image.Image) -> Image.Image:
+    return ImageOps.expand(image, border=BORDER_PX, fill=255)      # text must not touch the edge
 
 
-def run_ablation(labels: pd.DataFrame) -> pd.DataFrame:
-    """Add the preprocessing steps one at a time, with both page-segmentation modes,
-    to see which step helps and which hurts. (Optional: python ... --ablation)"""
+def cap_width(image: Image.Image) -> Image.Image:
+    if image.width > MAX_WIDTH:                                     # bound the runtime
+        new_height = round(image.height * MAX_WIDTH / image.width)
+        image = image.resize((MAX_WIDTH, new_height), Image.Resampling.LANCZOS)
+    return image
+
+
+def enlarge(image: Image.Image) -> Image.Image:
+    new_size = (round(image.width * ENLARGE), round(image.height * ENLARGE))
+    return image.resize(new_size, Image.Resampling.BICUBIC)
+
+
+def preprocess(image: Image.Image) -> Image.Image:
+    """grayscale -> 20 px white border -> cap width at 1,200 px -> enlarge 1.5x."""
+    return enlarge(cap_width(add_border(to_grayscale(image))))
+
+
+# ---------------------------------------------------------------------------
+# Question 6 - failure analysis
+# ---------------------------------------------------------------------------
+def failure_type(row) -> str:
+    """engine error = Tesseract crashed; no text detected = segmentation failure (found no
+    text line); character confusion = text was found but read wrongly (recognition failure)."""
+    if row.ocr_status == "engine_error":
+        return "engine error"
+    if row.prediction_norm == "":
+        return "no text detected"
+    return "character confusion"
+
+
+def analyse_failures(frame: pd.DataFrame, n: int = 8) -> pd.DataFrame:
+    """The n worst non-exact predictions (highest normalised edit distance), tagged."""
+    worst = (frame[~frame["exact"]]
+             .sort_values(["normalised_edit_distance", "filename"], ascending=[False, True])
+             .head(n).copy())
+    worst["failure_type"] = [failure_type(row) for row in worst.itertuples()]
+    return worst
+
+
+def plot_failures(errors: pd.DataFrame, path: Path) -> None:
+    """The six hardest images with reference text and OCR output."""
+    figure, axes = plt.subplots(2, 3, figsize=(11, 5.5))
+    for axis, row in zip(axes.flat, errors.head(6).itertuples()):
+        axis.imshow(load_image(IMAGE_DIR / row.filename))
+        axis.set_title(f"Reference: {row.truth}\nOCR: {row.prediction[:28] or '(blank)'}", fontsize=8)
+        axis.axis("off")
+    figure.tight_layout()
+    figure.savefig(path, dpi=150)
+    plt.close(figure)
+
+
+def failure_counts(frame: pd.DataFrame) -> pd.Series:
+    """Failure type of EVERY non-exact prediction (not only the worst eight)."""
+    wrong = frame[~frame["exact"]]
+    return pd.Series([failure_type(row) for row in wrong.itertuples()]).value_counts()
+
+
+# ---------------------------------------------------------------------------
+# Extra (my own, optional): ablation - add the preprocessing steps one at a time
+# ---------------------------------------------------------------------------
+def run_ablation(labels: pd.DataFrame, originals: list) -> pd.DataFrame:
+    """Same 89 images, same OCR config, same metrics; only the preprocessing differs."""
     steps = {
-        "1 raw photo": no_preprocessing,
-        "2 + grayscale": to_gray,
-        "3 + autocontrast": gray_autocontrast,
-        "4 + white border": clean,
-        "5a + 2x upscale (required pipeline)": preprocess,
-        "5b + resize to 150 px high": preprocess_fixed_height,
-        "5c + resize to 250 px high": lambda image: resize_to_height(clean(image), 250),
+        "1 raw photo (baseline)": lambda im: im,
+        "2 + grayscale": to_grayscale,
+        "3 + 20 px border": lambda im: add_border(to_grayscale(im)),
+        "4 + width cap 1200": lambda im: cap_width(add_border(to_grayscale(im))),
+        "5 + enlarge 1.5x (= handout pipeline)": preprocess,
+        "extra: grayscale + autocontrast, then steps 3-5":
+            lambda im: enlarge(cap_width(add_border(ImageOps.autocontrast(to_grayscale(im), cutoff=2)))),
     }
-    originals = [load_image(IMAGE_DIR / name) for name in labels["filename"]]
     rows = []
     for step, prepare in steps.items():
-        for options in ("--psm 3", "--psm 7"):
-            def read(i):
-                raw = pytesseract.image_to_string(prepare(originals[i]), lang=OCR_LANGUAGE, config=options)
-                return score(labels["label"].iloc[i], raw)
-            # Tesseract runs as a separate program, so 4 threads really do run 4 OCR jobs at once.
-            with ThreadPoolExecutor(max_workers=4) as pool:
-                scores = pd.DataFrame(list(pool.map(read, range(len(labels)))))
-            rows.append({
-                "step": step,
-                "tesseract_options": options,
-                "exact_match_accuracy": scores["exact_match"].mean(),
-                "mean_normalised_edit_distance": scores["normalised_edit_distance"].mean(),
-                "character_error_rate": scores["edit_distance"].sum() / scores["truth_chars"].sum(),
-                "blank_predictions": int(scores["blank"].sum()),
-            })
-            print(f"  {step:<38} {options}: blanks={rows[-1]['blank_predictions']:>3}  "
-                  f"NED={rows[-1]['mean_normalised_edit_distance']:.3f}")
-    return pd.DataFrame(rows)
-
-
-def error_analysis(predictions: pd.DataFrame) -> pd.DataFrame:
-    """Count each failure type per pipeline, with one example of each."""
-    failures = predictions[predictions["failure_type"] != "correct"]
-    rows = []
-    for (name, kind), group in failures.groupby(["pipeline", "failure_type"], sort=False):
-        example = group.iloc[0]
-        rows.append({
-            "pipeline": name,
-            "failure_type": kind,
-            "count": len(group),
-            "share_of_images": len(group) / predictions["image_id"].nunique(),
-            "example_filename": example["filename"],
-            "example_truth": example["truth_norm"],
-            "example_prediction": example["raw_prediction"],
-        })
-    table = pd.DataFrame(rows)
-    # Keep pipelines in their usual order; within a pipeline, most common failure first.
-    table["pipeline_order"] = table["pipeline"].map({name: i for i, name in enumerate(PIPELINES)})
-    table = table.sort_values(["pipeline_order", "count"], ascending=[True, False])
-    return table.drop(columns="pipeline_order").reset_index(drop=True)
-
-
-# ---------------------------------------------------------------------------
-# Step 4 - figures
-# ---------------------------------------------------------------------------
-def short(text: str, limit: int = 28) -> str:
-    text = " ".join(str(text).split()) or "(blank)"
-    return text if len(text) <= limit else text[: limit - 1] + "…"
-
-
-def plot_sample_grid(predictions: pd.DataFrame, image_ids: list[int], path: Path) -> None:
-    """Left: raw photo, right: preprocessed image, with every pipeline's prediction."""
-    figure, axes = plt.subplots(len(image_ids), 2, figsize=(11, 2.1 * len(image_ids)))
-    for row, image_id in enumerate(image_ids):
-        group = predictions[predictions["image_id"] == image_id].set_index("pipeline")
-        original = load_image(IMAGE_DIR / group["filename"].iloc[0])
-        axes[row, 0].imshow(original)
-        axes[row, 1].imshow(clean(original), cmap="gray")
-        axes[row, 0].set_title(f"raw photo - truth: {group['truth_norm'].iloc[0]!r}", fontsize=9, loc="left")
-        axes[row, 1].set_title(" | ".join(f"{name}: {short(group.loc[name, 'raw_prediction'], 18)}"
-                                          for name in PIPELINES), fontsize=7, loc="left")
-        for axis in axes[row]:
-            axis.axis("off")
-    figure.suptitle("Left: raw photo.  Right: preprocessed (gray + autocontrast + border) "
-                    "with each pipeline's OCR output", fontsize=10, fontweight="bold")
-    figure.tight_layout()
-    figure.savefig(path, dpi=120)
-    plt.close(figure)
-
-
-def plot_failures(predictions: pd.DataFrame, pipeline: str, path: Path, n: int = 8) -> None:
-    """The n worst (highest edit distance) non-blank mistakes of one pipeline."""
-    group = predictions[(predictions["pipeline"] == pipeline) & ~predictions["exact_match"]]
-    worst = group.sort_values(["blank", "normalised_edit_distance"], ascending=[True, False]).head(n)
-    figure, axes = plt.subplots(len(worst), 1, figsize=(7, 1.9 * len(worst)))
-    for axis, item in zip(list(getattr(axes, "flat", [axes])), worst.itertuples()):
-        axis.imshow(load_image(IMAGE_DIR / item.filename))
-        axis.set_title(f"truth: {item.truth_norm!r}   OCR: {short(item.raw_prediction)!r}   "
-                       f"({item.failure_type}, NED={item.normalised_edit_distance:.2f})",
-                       fontsize=8, loc="left")
-        axis.axis("off")
-    figure.suptitle(f"Worst OCR mistakes - pipeline '{pipeline}'", fontweight="bold")
-    figure.tight_layout()
-    figure.savefig(path, dpi=110)
-    plt.close(figure)
+        frame = add_distances(run_ocr(labels, [prepare(im) for im in originals], step))
+        rows.append(summarise(frame))
+    return pd.DataFrame(rows).rename(columns={"pipeline": "step"})
 
 
 def main() -> None:
     parser = argparse.ArgumentParser(description="Lab 6: Tesseract OCR on handwritten prescriptions")
     parser.add_argument("--limit", type=int, default=None, help="only use the first N images (quick test)")
     parser.add_argument("--ablation", action="store_true",
-                        help="also measure each preprocessing step on its own (slower)")
+                        help="extra: also measure each preprocessing step on its own")
     args = parser.parse_args()
 
-    heading("Step 0 - Check Tesseract")
-    version = setup_tesseract()
-    print(f"Tesseract {version} at {pytesseract.pytesseract.tesseract_cmd}")
-
-    heading("Step 1 - Load labels")
-    labels = pd.read_csv(LABELS_FILE)
-    missing = [name for name in labels["filename"] if not (IMAGE_DIR / name).is_file()]
-    if missing:
-        print(f"WARNING: {len(missing)} labelled images are missing and will be skipped: {missing[:5]}")
-        labels = labels[~labels["filename"].isin(missing)]
-    if args.limit:
-        labels = labels.head(args.limit)
-    print(f"{len(labels)} labelled images, e.g. {labels['label'].head(3).tolist()}")
-
-    heading("Step 2 - Run the OCR pipelines")
+    pd.set_option("display.width", 200)
+    pd.set_option("display.max_columns", 20)
     RESULTS.mkdir(parents=True, exist_ok=True)
-    predictions = run_ocr(labels.reset_index(drop=True), RESULTS / "preprocessed")
-    predictions.to_csv(RESULTS / "predictions.csv", index=False)
 
-    heading("Step 3 - Metrics")
-    metrics = summarise(predictions)
-    metrics.to_csv(RESULTS / "metrics.csv", index=False)
-    print(metrics.drop(columns="description").round(3).to_string(index=False))
+    heading("Setup - Tesseract")
+    version = setup_tesseract()
+    print(f"OCR mode: live | Tesseract {version} at {pytesseract.pytesseract.tesseract_cmd}")
+    print(f"OCR configuration (fixed for every image): {OCR_CONFIG}")
 
-    heading("Step 4 - Error analysis (most common failure types)")
-    errors = error_analysis(predictions)
-    errors.to_csv(RESULTS / "error_analysis.csv", index=False)
-    print(errors[["pipeline", "failure_type", "count", "share_of_images"]].round(2).to_string(index=False))
+    heading("Question 1 - Validate the data")
+    labels = load_labels(args.limit)
+    print(f"Labelled images: {len(labels)} | unique labels: {labels['label'].nunique()}")
+    plot_sample_grid(labels, RESULTS / "sample_grid.png")
 
-    heading("Step 5 - Figures")
-    best = metrics.sort_values("mean_normalised_edit_distance").iloc[0]["pipeline"]
-    # Sample grid: the best pipeline's 3 best and 3 worst images, so both cases are visible.
-    ranked = predictions[predictions["pipeline"] == best].sort_values("normalised_edit_distance")
-    sample_ids = list(dict.fromkeys(ranked["image_id"].head(3).tolist() + ranked["image_id"].tail(3).tolist()))
-    plot_sample_grid(predictions, sample_ids, RESULTS / "sample_grid.png")
-    plot_failures(predictions, best, RESULTS / "ocr_failures.png")
-    print(f"Best pipeline by edit distance: {best}")
+    heading("Question 2 - Baseline OCR on the raw photos")
+    originals = [load_image(p) for p in labels["path"]]
+    baseline = run_ocr(labels, originals, "baseline")
+    print(baseline[["truth", "prediction", "prediction_norm", "ocr_status"]].head(8).to_string(index=False))
+    print("OCR engine errors:", int((baseline["ocr_status"] == "engine_error").sum()))
+
+    heading("Question 3 - Measure baseline quality")
+    baseline = add_distances(baseline)
+    print(pd.DataFrame([summarise(baseline)]).round(4).to_string(index=False))
+
+    heading("Question 4 - Preprocess (grayscale, border, width cap, 1.5x)")
+    save_dir = RESULTS / "preprocessed"
+    save_dir.mkdir(exist_ok=True)
+    prepared = []
+    for i, image in enumerate(originals):
+        cleaned = preprocess(image)
+        cleaned.save(save_dir / f"{i:03d}.png")
+        prepared.append(cleaned)
+    print(f"Prepared images: {len(prepared)} | example size: {prepared[0].size} mode: {prepared[0].mode}")
+
+    heading("Question 5 - Compare the two pipelines fairly")
+    processed = add_distances(run_ocr(labels, prepared, "grayscale_border_resize"))
+    pd.concat([baseline, processed]).to_csv(RESULTS / "predictions.csv", index=False)
+    metrics = pd.DataFrame([summarise(baseline), summarise(processed)]).set_index("pipeline")
+    metrics.to_csv(RESULTS / "metrics.csv")
+    print(metrics.round(4).to_string())
+    change = (metrics.loc["grayscale_border_resize"] - metrics.loc["baseline"]).rename("change (preprocessed - baseline)")
+    print("\n" + change.round(3).to_frame().to_string())
+
+    heading("Question 6 - Analyse the failures")
+    errors = analyse_failures(processed)
+    errors[["filename", "truth", "prediction", "failure_type"]].to_csv(RESULTS / "error_analysis.csv", index=False)
+    print(errors[["truth", "prediction", "failure_type"]].to_string(index=False))
+    plot_failures(errors, RESULTS / "ocr_failures.png")
+    print("\nFailure types over ALL wrong predictions:")
+    for name, frame in [("baseline", baseline), ("grayscale_border_resize", processed)]:
+        print(f"  {name}: {failure_counts(frame).to_dict()}")
 
     if args.ablation:
-        heading("Step 6 - Ablation: which preprocessing step helps?")
-        ablation = run_ablation(labels.reset_index(drop=True))
+        heading("Extra - Ablation: which preprocessing step helps?")
+        ablation = run_ablation(labels, originals)
         ablation.to_csv(RESULTS / "ablation.csv", index=False)
         print(ablation.round(3).to_string(index=False))
-    print(f"All files saved in {RESULTS}")
+
+    print(f"\nSaved in {RESULTS}: {sorted(p.name for p in RESULTS.iterdir())}")
 
 
 if __name__ == "__main__":

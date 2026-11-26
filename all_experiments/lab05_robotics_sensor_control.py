@@ -1,22 +1,4 @@
-"""
-Lab 05 — Robotics: Sensor-to-Action Control
-Converted from lab05_robotics_sensor_control_worked.ipynb for use in VS Code.
 
-Dataset expected:
-    all_datasets/Lab 5/sensor_readings_24.csv
-
-The CSV has no header: 24 ultrasonic distances (metres), followed by an action label.
-
-Install dependencies:
-    python -m pip install numpy pandas matplotlib scikit-learn
-
-Run from the project folder:
-    python lab05_robotics_sensor_control.py
-
-Or specify paths:
-    python lab05_robotics_sensor_control.py --data path/to/sensor_readings_24.csv
-    python lab05_robotics_sensor_control.py --results path/to/results/lab05
-"""
 
 from __future__ import annotations
 
