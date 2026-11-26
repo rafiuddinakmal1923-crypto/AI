@@ -17,10 +17,6 @@ data and output folders relative to its own location, so you can run it from any
 | 7 | Airline tweet sentiment (bag of words + Naive Bayes) | `lab07_airline_sentiment.py` | `results/lab07/` |
 | 8 | Genetic algorithm for regression vs OLS | `lab08_genetic_algorithm_regression.py` | `results/lab08/` |
 
-Study guides: Labs 2, 3 and 6 in [`docs/GUIDE.md`](docs/GUIDE.md), and Labs 7 and 8 in
-[`docs/GUIDE_LAB07_08.md`](docs/GUIDE_LAB07_08.md). The output comparison with a classmate's
-results is in [`docs/COMPARISON.md`](docs/COMPARISON.md). Labs 7 and 8 are based on the lecturer's
-scripts; the small fixes are listed at the top of each file.
 
 ## Setup (Windows)
 
